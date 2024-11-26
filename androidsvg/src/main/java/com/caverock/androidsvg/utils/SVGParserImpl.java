@@ -322,6 +322,7 @@ class SVGParserImpl implements SVGParser
       text_anchor,
       text_decoration,
       text_orientation,  // @since 1.5
+      dominant_baseline,
       transform,
       type,
       vector_effect,
@@ -3542,6 +3543,14 @@ class SVGParserImpl implements SVGParser
       }
    }
 
+   static Style.DominantBaseline parseDominantBaseline(String val)
+   {
+      switch (val)
+      {
+         case "central":  return Style.DominantBaseline.Central;
+         default:       return Style.DominantBaseline.Auto;
+      }
+   }
 
    // Parse a text anchor keyword
    static Boolean  parseOverflow(String val)

@@ -1574,6 +1574,12 @@ public class SVGAndroidRenderer
          }
       }
 
+      Style.DominantBaseline dominantBaseline = state.style.dominantBaseline;
+      if (dominantBaseline == Style.DominantBaseline.Central) {
+         Paint.FontMetrics fontMetrics = state.fillPaint.getFontMetrics();
+         y -= (fontMetrics.ascent + fontMetrics.descent) / 2f;
+      }
+
       if (obj.boundingBox == null) {
          TextBoundsCalculator  proc = new TextBoundsCalculator(x, y);
          enumerateTextSpans(obj, proc);
@@ -2545,6 +2551,11 @@ public class SVGAndroidRenderer
       if (isSpecified(style, Style.SPECIFIED_TEXT_ANCHOR))
       {
          state.style.textAnchor = style.textAnchor;
+      }
+
+      if (isSpecified(style, Style.SPECIFIED_DOMINANT_BASELINE))
+      {
+         state.style.dominantBaseline = style.dominantBaseline;
       }
 
       if (isSpecified(style, Style.SPECIFIED_OVERFLOW))

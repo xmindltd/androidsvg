@@ -61,6 +61,7 @@ public class  Style implements Cloneable
    TextDirection   direction;
 
    TextAnchor   textAnchor;
+   DominantBaseline dominantBaseline;
 
    Boolean      overflow;  // true if overflow visible
    CSSClipRect  clip;
@@ -174,6 +175,7 @@ public class  Style implements Cloneable
    static final long SPECIFIED_FONT_STRETCH               = (1L<<51);
    static final long SPECIFIED_LETTER_SPACING             = (1L<<52);
    static final long SPECIFIED_WORD_SPACING               = (1L<<53);
+   static final long SPECIFIED_DOMINANT_BASELINE          = (1L<<54);
 
    // Flags for the settings that are applied to reset the root style
    private static final long SPECIFIED_RESET = 0xffffffffffffffffL &
@@ -217,6 +219,12 @@ public class  Style implements Cloneable
       Start,
       Middle,
       End
+   }
+
+   public enum DominantBaseline
+   {
+      Auto,
+      Central
    }
 
    public enum TextDecoration
@@ -363,6 +371,7 @@ public class  Style implements Cloneable
       def.textDecoration = TextDecoration.None;
       def.direction = TextDirection.LTR;
       def.textAnchor = TextAnchor.Start;
+      def.dominantBaseline = DominantBaseline.Auto;
       def.overflow = true;  // Overflow shown/visible for root, but not for other elements (see section 14.3.3).
       def.clip = null;
       def.markerStart = null;
@@ -589,6 +598,12 @@ public class  Style implements Cloneable
             style.textAnchor = SVGParserImpl.parseTextAnchor(val);
             if (style.textAnchor != null)
                style.specifiedFlags |= SPECIFIED_TEXT_ANCHOR;
+            break;
+
+         case dominant_baseline:
+            style.dominantBaseline = SVGParserImpl.parseDominantBaseline(val);
+            if (style.dominantBaseline != null)
+               style.specifiedFlags |= SPECIFIED_DOMINANT_BASELINE;
             break;
 
          case overflow:
